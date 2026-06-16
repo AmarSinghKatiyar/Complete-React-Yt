@@ -675,3 +675,12 @@ Keys help React identify changed elements efficiently.
 ✅ Controlled Components
 
 These topics cover the majority of React questions asked in placements and interviews.
+
+
+## ⭐ Support
+
+If you found this project helpful, please consider giving it a ⭐ on GitHub.
+
+It helps others discover the project and motivates continued development.
+
+Thank you for your support! ❤️
