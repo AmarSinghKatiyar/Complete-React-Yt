@@ -173,13 +173,6 @@ This project helps beginners understand:
 
 ---
 
-## Screenshot
-
-Add your project screenshot here:
-
-```md
-![Project Screenshot](./screenshot.png)
-```
 
 ---
 
