@@ -39,7 +39,7 @@ const App = () => {
             return <div key={idx} className="h-75 w-60 bg-white rounded-xl flex justify-between flex-col items-start relative">
               <div>
                 <h3 className='text-black flex-wrap text-2xl font-bold leading-tight'>{elem.title}</h3>
-                <p className='mt-4 text-black text-xl font-semibold leading-tight'>{elem.details}</p>
+                <p className='mt-4 text-black text-xl font-semibold'>{elem.details}</p>
               </div>
             </div>
           })}
