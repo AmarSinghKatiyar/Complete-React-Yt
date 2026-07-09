@@ -33,7 +33,7 @@ const App = () => {
         setnum(num+1)
       }}>click me</button>
       <button className='bg-indigo-400 ml-3' onClick={()=>{
-        setnum2(num2+1)
+        setnum2(num2-1)
       }}>click me</button>
     </div>
   )
