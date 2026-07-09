@@ -7,7 +7,7 @@ const App = () => {
   const [num2, setnum2] = useState(0)
 
   function numchanging(){
-    console.log("num li value change ho gayi");
+    console.log("num ki value change ho gayi");
   }
 
   function num2changing(){
@@ -21,7 +21,7 @@ const App = () => {
   },[num])
 
   useEffect(() => {
-    console.log("use effect runnning depend on num2");
+    console.log("use effect running depend on num2");
   }, [num2])
   
   

@@ -1,27 +1,32 @@
-# React `useEffect` Example
+# React `useEffect` with Dependency Array
 
-This project demonstrates how `useEffect` works with different dependency arrays in React.
-
-## What this project does
-
-- Maintains two separate state variables: `num` and `num2`.
-- Updates each state using its own button.
-- Runs different `useEffect` hooks depending on which state changes.
-- Logs messages to the browser console to show when effects are executed.
+This project demonstrates how `useEffect` works with different dependency arrays in React using two state variables.
 
 ---
 
-## Concepts Covered
+## 🚀 Concepts Covered
 
 - `useState`
 - `useEffect`
+- Component Mounting
+- Component Updating
 - Dependency Array
-- State Updates
-- Component Re-rendering
+- React Re-rendering
 
 ---
 
-## Code Explanation
+## 📂 Project Overview
+
+The application contains:
+
+- Two state variables: `num` and `num2`
+- Two buttons to update each state
+- Two separate `useEffect` hooks
+- Console logs to understand when each effect runs
+
+---
+
+## 📝 Code
 
 ### State
 
@@ -30,10 +35,10 @@ const [num, setnum] = useState(0);
 const [num2, setnum2] = useState(0);
 ```
 
-Two independent state variables are created.
+- `num` stores the first value.
+- `num2` stores the second value.
 
-- `num` → Updated by the first button.
-- `num2` → Updated by the second button.
+Whenever a state changes, React re-renders the component.
 
 ---
 
@@ -49,11 +54,11 @@ function num2changing() {
 }
 ```
 
-These functions simply log a message whenever they are called.
+These functions are called inside the effects to demonstrate when they execute.
 
 ---
 
-### First useEffect
+### First Effect
 
 ```jsx
 useEffect(() => {
@@ -62,69 +67,235 @@ useEffect(() => {
 }, [num]);
 ```
 
-This effect only runs when `num` changes.
+This effect runs:
 
-Example:
-
-Initial Render
-
-```
-useEffect is running depend on num
-num ki value change ho gayi
-```
-
-Click First Button
-
-```
-useEffect is running depend on num
-num ki value change ho gayi
-```
-
-Click Second Button
-
-```
-Nothing happens in this effect.
-```
+- ✅ After the component mounts.
+- ✅ Whenever `num` changes.
+- ❌ It does not run when only `num2` changes.
 
 ---
 
-### Second useEffect
+### Second Effect
 
 ```jsx
 useEffect(() => {
-  console.log("useEffect running depend on num2");
+  console.log("use effect running depend on num2");
 }, [num2]);
 ```
 
-This effect only runs when `num2` changes.
+This effect runs:
+
+- ✅ After the component mounts.
+- ✅ Whenever `num2` changes.
+- ❌ It does not run when only `num` changes.
+
+---
+
+# 📌 Understanding Mounting
+
+**Mounting** means React creates the component and adds it to the browser for the first time.
+
+When your application starts, React performs these steps:
+
+```text
+<App />
+   │
+   ▼
+Create Component
+   │
+   ▼
+Initialize State
+
+num = 0
+num2 = 0
+   │
+   ▼
+Render JSX
+   │
+   ▼
+Insert into DOM
+   │
+   ▼
+Component Mounted ✅
+```
+
+Immediately after mounting, React executes every `useEffect`.
+
+Therefore, your console will display:
+
+```text
+useEffect is running depend on num
+num li value change ho gayi
+
+use effect running depend on num2
+```
+
+This happens **even though you haven't clicked any button**, because `useEffect` always runs once after the initial render.
+
+---
+
+# 📌 Updating
+
+Updating happens whenever a state changes.
 
 Example:
 
-Click Second Button
-
-```
-useEffect running depend on num2
+```jsx
+setnum(num + 1);
 ```
 
-Click First Button
+Flow:
 
+```text
+Button Click
+      │
+      ▼
+num changes
+      │
+      ▼
+Component Re-renders
+      │
+      ▼
+React checks dependency arrays
 ```
-Nothing happens in this effect.
+
+### React checks:
+
+```jsx
+[num]
+```
+
+Old value:
+
+```text
+0
+```
+
+New value:
+
+```text
+1
+```
+
+The value changed, so React executes:
+
+```jsx
+useEffect(() => {
+  console.log("useEffect is running depend on num");
+}, [num]);
+```
+
+Console:
+
+```text
+useEffect is running depend on num
+num li value change ho gayi
 ```
 
 ---
 
-## Dependency Array
+Now React checks:
 
 ```jsx
-useEffect(() => {
-  // Effect
-}, [dependency]);
+[num2]
 ```
 
-The dependency array tells React **when to execute the effect**.
+Old value:
 
-### Empty Array
+```text
+0
+```
+
+New value:
+
+```text
+0
+```
+
+The value did **not** change.
+
+So React skips this effect.
+
+---
+
+## Clicking the Second Button
+
+```jsx
+setnum2(num2 + 1);
+```
+
+React compares:
+
+```text
+num  : 1 → 1
+```
+
+No change.
+
+Skip first effect.
+
+Then:
+
+```text
+num2 : 0 → 1
+```
+
+Changed.
+
+Run second effect.
+
+Console:
+
+```text
+use effect running depend on num2
+```
+
+---
+
+# 🔄 Project Flow
+
+```text
+Application Starts
+        │
+        ▼
+Component Mounts
+        │
+        ▼
+Both useEffects execute
+        │
+        ▼
+User clicks First Button
+        │
+        ▼
+num changes
+        │
+        ▼
+Component Updates
+        │
+        ▼
+Only useEffect([num]) runs
+```
+
+---
+
+```text
+User clicks Second Button
+        │
+        ▼
+num2 changes
+        │
+        ▼
+Component Updates
+        │
+        ▼
+Only useEffect([num2]) runs
+```
+
+---
+
+# 📚 Dependency Array
+
+## Empty Dependency Array
 
 ```jsx
 useEffect(() => {
@@ -136,19 +307,22 @@ Runs only after the component mounts.
 
 ---
 
-### No Dependency Array
+## No Dependency Array
 
 ```jsx
 useEffect(() => {
-  console.log("Runs on every render");
+  console.log("Runs after every render");
 });
 ```
 
-Runs after every render.
+Runs:
+
+- After mounting
+- After every update
 
 ---
 
-### With Dependencies
+## Single Dependency
 
 ```jsx
 useEffect(() => {
@@ -156,81 +330,36 @@ useEffect(() => {
 }, [num]);
 ```
 
-Runs only when `num` changes.
+Runs:
+
+- After mounting
+- Whenever `num` changes
 
 ---
 
-### Multiple Dependencies
+## Multiple Dependencies
 
 ```jsx
 useEffect(() => {
-  console.log("Runs when either num or num2 changes");
+  console.log("Runs when num or num2 changes");
 }, [num, num2]);
 ```
 
-Runs whenever **any** dependency changes.
+Runs:
+
+- After mounting
+- Whenever **either** dependency changes
 
 ---
 
-## Project Flow
+# 🎯 Learning Outcome
 
-```
-Component Loads
-       │
-       ▼
-Render UI
-       │
-       ▼
-Run useEffect(num)
-Run useEffect(num2)
-       │
-       ▼
-User clicks Button 1
-       │
-       ▼
-num updates
-       │
-       ▼
-Component re-renders
-       │
-       ▼
-Only useEffect([num]) runs
-```
-
----
-
-## Expected Console Output
-
-### On Initial Render
-
-```
-useEffect is running depend on num
-num ki value change ho gayi
-
-useEffect running depend on num2
-```
-
-### Click First Button
-
-```
-useEffect is running depend on num
-num ki value change ho gayi
-```
-
-### Click Second Button
-
-```
-useEffect running depend on num2
-```
-
----
-
-## Learning Outcome
-
-After completing this example, you should understand:
+After completing this project, you should understand:
 
 - How `useState` stores state.
+- What component mounting means.
+- What component updating means.
 - How `useEffect` works.
-- What a dependency array is.
-- Why effects only run when their dependencies change.
-- How React re-renders components after state updates.
+- Why `useEffect` runs once after mounting.
+- How dependency arrays control when an effect executes.
+- How React decides whether to run or skip an effect.
