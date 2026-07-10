@@ -20,8 +20,10 @@ const App = () => {
   if (UserData.length > 0) {
     printuser = UserData.map((elem, idx) => {
       // return elem.download_url
-      return <div className='w-82 p-5' key={idx}>
+      return <div className='ml-7.5'>
+        <div className='w-84 p-3' key={idx}>
         <Card elem={elem} />
+      </div>
       </div>
     })
   }
